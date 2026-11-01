@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12645c">
+  <title>NEXORA — Modern Everyday Essentials</title>
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Hero Banner */
+    .hero-banner {
+      background: radial-gradient(ellipse at 80% 20%, #1c7c72 0%, #0d4640 60%, #0a332f 100%);
+      color: #ffffff;
+      padding: 70px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hero-title {
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero-desc {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #c7ded9;
+      max-width: 500px;
+      margin-bottom: 28px;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .hero-badge-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      text-align: center;
+    }
+    .hero-badge-card .stat {
+      font-size: 42px;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      color: #5eead4;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    /* Section Headers */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin: 48px 0 24px;
+    }
+    .section-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--ink-secondary);
+      margin-top: 4px;
+    }
+
+    /* Categories Grid */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .cat-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 20px 16px;
+      text-align: center;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .cat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .cat-icon {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+    .cat-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    /* Value Pillars */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      margin-top: 40px;
+    }
+    .pillar {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .pillar-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--accent-light);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .pillar-text h4 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .pillar-text p {
+      font-size: 12px;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="container">
+      <div>Fast, reliable delivery across India · Simulated Demo Payments Enabled</div>
+      <div><a href="/pages/orders.html">Track Order</a></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a class="brand" href="/index.html">
+          <span class="brand-mark">N</span>
+          <span>NEXORA</span>
+        </a>
+
+        <div class="header-search">
+          <form class="search-form" action="/pages/products.html" method="GET">
+            <input type="text" name="q" placeholder="Search headphones, keyboards, sneakers..." aria-label="Search products">
+            <button type="submit" aria-label="Submit search">🔍</button>
+          </form>
+        </div>
+
+        <div class="header-actions">
+          <a href="/pages/wishlist.html" class="action-btn" title="Saved Wishlist">
+            <span aria-hidden="true">🤍</span>
+            <span class="action-label">Wishlist</span>
+          </a>
+          <a href="/pages/cart.html" class="action-btn" title="Shopping Cart">
+            <span aria-hidden="true">🛒</span>
+            <span class="action-label">Cart</span>
+            <span id="header-cart-badge" class="badge-count" hidden>0</span>
+          </a>
+          <div id="header-auth-nav" style="display:flex;align-items:center;gap:8px;">
+            <a href="/pages/login.html" class="action-btn">Sign in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="sub-nav">
+    <div class="container sub-nav-inner" id="categories-bar">
+      <a href="/pages/products.html" class="active">All Products</a>
+      <!-- Dynamically filled with real categories -->
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <span class="hero-tag">Curated Quality</span>
+            <h1 class="hero-title">Upgrade Your Everyday Tech & Style</h1>
+            <p class="hero-desc">Experience thoughtful design, verified local hardware, and seamless checkout with Cash on Delivery or instant demo payments.</p>
+            <div class="hero-cta">
+              <a href="/pages/products.html" class="btn btn-primary btn-lg" style="background:#5eead4;color:#0a332f;">Explore Catalogue →</a>
+              <a href="/pages/products.html?category=electronics" class="btn btn-secondary btn-lg" style="background:rgba(255,255,255,0.12);color:#fff;border-color:transparent;">Electronics Deals</a>
+            </div>
+          </div>
+          <div class="hero-badge-card">
+            <div class="stat">100%</div>
+            <h3 style="color:#fff;font-size:16px;margin-bottom:6px;">Authentic Goods</h3>
+            <p style="color:#b3d6cf;font-size:13px;">Tested and catalogued straight from the PostgreSQL database.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular Categories -->
+    <section class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Shop by Category</h2>
+          <p class="section-subtitle">Find what you're looking for by browsing our curated departments.</p>
+        </div>
+        <a href="/pages/products.html" class="btn btn-sm btn-outline">View All</a>
+      </div>
+      <div class="cat-grid" id="home-categories">
+        <!-- Rendered by homepage.js -->
+        <div class="cat-card"><span class="cat-icon">⏳</span><span class="cat-name">Loading...</span></div>
+      </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="container">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Featured Products</h2>
+          <p class="section-subtitle">Top-rated gadgets, gear, and lifestyle staples in stock right now.</p>
+        </div>
+        <a href="/pages/products.html" class="btn btn-sm btn-outline">See Full Store</a>
+      </div>
+      <div class="product-grid" id="home-products">
+        <!-- Rendered by homepage.js -->
+      </div>
+    </section>
+
+    <!-- Trust Pillars -->
+    <section class="container">
+      <div class="pillars-grid">
+        <div class="pillar">
+          <div class="pillar-icon">📦</div>
+          <div class="pillar-text">
+            <h4>Free & Reliable Delivery</h4>
+            <p>Swift dispatch with real-time address validation and status updates.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🛡️</div>
+          <div class="pillar-text">
+            <h4>Simulated & COD Options</h4>
+            <p>Flexible payment: choose Cash on Delivery or instant simulated demo payment.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">⭐</div>
+          <div class="pillar-text">
+            <h4>Verified Customer Reviews</h4>
+            <p>Genuine customer ratings with strict one-review-per-product authenticity.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">🔒</div>
+          <div class="pillar-text">
+            <h4>Safe Local Stack</h4>
+            <p>Protected session cookies and atomic database transactions keep data consistent.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/index.html" style="color:#ffffff;">
+            <span class="brand-mark">N</span>
+            <span>NEXORA</span>
+          </a>
+          <p>NEXORA is a complete full-stack e-commerce experience built with Vanilla JS, Express, PostgreSQL, and Prisma.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Customer Service</h4>
+          <ul class="footer-links">
+            <li><a href="/pages/orders.html">Order History</a></li>
+            <li><a href="/pages/cart.html">Shopping Cart</a></li>
+            <li><a href="/pages/addresses.html">Delivery Addresses</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Shop Departments</h4>
+          <ul class="footer-links">
+            <li><a href="/pages/products.html?category=electronics">Electronics</a></li>
+            <li><a href="/pages/products.html?category=gaming">Gaming</a></li>
+            <li><a href="/pages/products.html?category=fashion">Fashion</a></li>
+            <li><a href="/pages/products.html?category=sports">Sports</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>My Account</h4>
+          <ul class="footer-links">
+            <li><a href="/pages/login.html">Sign In</a></li>
+            <li><a href="/pages/register.html">Create Account</a></li>
+            <li><a href="/pages/profile.html">Profile Settings</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 NEXORA Inc. All rights reserved. Built locally on Windows 11.</div>
+        <div>No external paid dependencies or cloud lock-in.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/homepage.js"></script>
+</body>
+</html>

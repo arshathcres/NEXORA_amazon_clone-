@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b2a">
+  <title>Sign in | NEXORA</title>
+  <link rel="stylesheet" href="../css/auth.css">
+  <script type="module" src="../js/auth-page.js"></script>
+</head>
+<body>
+  <main class="auth-shell">
+    <div style="width:100%;display:flex;justify-content:flex-start;margin-bottom:12px;">
+      <a href="/index.html" style="font-size:13px;font-weight:700;color:var(--muted);text-decoration:none;">← Return to Store</a>
+    </div>
+    <a class="brand" href="/index.html" aria-label="NEXORA home"><span class="brand-mark">N</span><span>NEXORA</span></a>
+    <section class="auth-card" aria-labelledby="page-title">
+      <div class="eyebrow">WELCOME BACK</div>
+      <h1 id="page-title">Sign in to NEXORA</h1>
+      <p class="intro">Pick up where you left off. Your saved items and orders are waiting.</p>
+      <form id="auth-form" data-mode="login" novalidate>
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" autocomplete="email" maxlength="255" required placeholder="you@example.com">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" maxlength="128" required placeholder="Your password">
+        <div id="form-message" class="form-message" role="status" aria-live="polite" hidden></div>
+        <button class="primary-button" type="submit">Sign in <span aria-hidden="true">→</span></button>
+      </form>
+      <p class="switch-auth">New to NEXORA? <a href="register.html">Create an account</a></p>
+    </section>
+    <p class="legal-note">Your sign-in is protected with a secure, HttpOnly session cookie.</p>
+  </main>
+</body>
+</html>

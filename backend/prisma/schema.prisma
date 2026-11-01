@@ -1,0 +1,180 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model addresses {
+  id            BigInt    @id @default(autoincrement())
+  user_id       String    @db.Uuid
+  full_name     String    @db.VarChar(100)
+  phone         String    @db.VarChar(20)
+  address_line1 String
+  address_line2 String?
+  city          String    @db.VarChar(100)
+  state         String    @db.VarChar(100)
+  postal_code   String    @db.VarChar(15)
+  country       String?   @default("India") @db.VarChar(100)
+  is_default    Boolean?  @default(false)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  profiles      profiles  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  orders        orders[]
+
+  @@index([user_id], map: "idx_addresses_user")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model cart_items {
+  id         BigInt   @id @default(autoincrement())
+  cart_id    BigInt
+  product_id BigInt
+  quantity   Int
+  carts      carts    @relation(fields: [cart_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  products   products @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([cart_id, product_id])
+  @@index([cart_id], map: "idx_cart_items_cart")
+}
+
+model carts {
+  id         BigInt       @id @default(autoincrement())
+  user_id    String       @unique @db.Uuid
+  created_at DateTime?    @default(now()) @db.Timestamptz(6)
+  updated_at DateTime?    @default(now()) @db.Timestamptz(6)
+  cart_items cart_items[]
+  profiles   profiles     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model categories {
+  id          BigInt     @id @default(autoincrement())
+  name        String     @db.VarChar(100)
+  slug        String     @unique @db.VarChar(120)
+  description String?
+  created_at  DateTime?  @default(now()) @db.Timestamptz(6)
+  products    products[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model order_items {
+  id               BigInt    @id @default(autoincrement())
+  order_id         BigInt
+  product_id       BigInt?
+  product_name     String    @db.VarChar(200)
+  quantity         Int
+  unit_price_paise BigInt
+  orders           orders    @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  products         products? @relation(fields: [product_id], references: [id], onUpdate: NoAction)
+
+  @@index([order_id], map: "idx_order_items_order")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model orders {
+  id          BigInt        @id @default(autoincrement())
+  user_id     String        @db.Uuid
+  address_id  BigInt?
+  total_paise BigInt
+  status      String        @default("PENDING") @db.VarChar(30)
+  created_at  DateTime?     @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?     @default(now()) @db.Timestamptz(6)
+  order_items order_items[]
+  addresses   addresses?    @relation(fields: [address_id], references: [id], onUpdate: NoAction)
+  profiles    profiles      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  payments    payments[]
+
+  @@index([status], map: "idx_orders_status")
+  @@index([user_id], map: "idx_orders_user")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model payments {
+  id                    BigInt    @id @default(autoincrement())
+  order_id              BigInt
+  payment_method        String    @db.VarChar(30)
+  payment_status        String    @default("PENDING") @db.VarChar(30)
+  amount_paise          BigInt
+  transaction_reference String?   @db.VarChar(150)
+  created_at            DateTime? @default(now()) @db.Timestamptz(6)
+  orders                orders    @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([order_id], map: "idx_payments_order")
+}
+
+model product_images {
+  id         BigInt    @id @default(autoincrement())
+  product_id BigInt
+  image_path String
+  is_primary Boolean?  @default(false)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  products   products  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([product_id], map: "idx_product_images_product")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model products {
+  id             BigInt           @id @default(autoincrement())
+  category_id    BigInt?
+  name           String           @db.VarChar(200)
+  slug           String           @unique @db.VarChar(220)
+  description    String?
+  price_paise    BigInt
+  stock          Int              @default(0)
+  is_active      Boolean?         @default(true)
+  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  cart_items     cart_items[]
+  order_items    order_items[]
+  product_images product_images[]
+  categories     categories?      @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reviews        reviews[]
+  wishlists      wishlists[]
+
+  @@index([is_active], map: "idx_products_active")
+  @@index([category_id], map: "idx_products_category")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model profiles {
+  id         String      @id @db.Uuid
+  full_name  String      @db.VarChar(100)
+  email         String      @unique @db.VarChar(255)
+  password_hash String?     @db.Text
+  role          String      @default("CUSTOMER") @db.VarChar(20)
+  created_at DateTime?   @default(now()) @db.Timestamptz(6)
+  addresses  addresses[]
+  carts      carts?
+  orders     orders[]
+  reviews    reviews[]
+  wishlists  wishlists[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model reviews {
+  id         BigInt    @id @default(autoincrement())
+  user_id    String    @db.Uuid
+  product_id BigInt
+  rating     Int
+  comment    String?
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  products   products  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  profiles   profiles  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, product_id])
+  @@index([product_id], map: "idx_reviews_product")
+}
+
+model wishlists {
+  id         BigInt    @id @default(autoincrement())
+  user_id    String    @db.Uuid
+  product_id BigInt
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  products   products  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  profiles   profiles  @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([user_id, product_id])
+  @@index([user_id], map: "idx_wishlists_user")
+}

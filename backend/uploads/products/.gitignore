@@ -1,0 +1,3 @@
+# Keep uploads/products directory tracked while ignoring user-uploaded files
+*
+!.gitignore

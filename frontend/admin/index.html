@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1716">
+  <title>NEXORA — Admin Command Center</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <span class="brand-mark" style="width:32px;height:32px;font-size:16px;">N</span>
+      <span>NEXORA ADMIN</span>
+    </div>
+
+    <ul class="admin-nav">
+      <li><a href="#overview" class="nav-link active" data-tab="overview"><span>📊</span> Overview</a></li>
+      <li><a href="#products" class="nav-link" data-tab="products"><span>📦</span> Products</a></li>
+      <li><a href="#add-product" class="nav-link" data-tab="add-product"><span>➕</span> Add Product</a></li>
+      <li><a href="#categories" class="nav-link" data-tab="categories"><span>🏷️</span> Categories</a></li>
+      <li><a href="#inventory" class="nav-link" data-tab="inventory"><span>📋</span> Inventory</a></li>
+      <li><a href="#orders" class="nav-link" data-tab="orders"><span>🛍️</span> Orders</a></li>
+      <li><a href="#customers" class="nav-link" data-tab="customers"><span>👥</span> Customers</a></li>
+      <li><a href="#reviews" class="nav-link" data-tab="reviews"><span>⭐</span> Reviews</a></li>
+    </ul>
+
+    <div class="admin-footer">
+      <div style="font-weight:700;color:#fff;margin-bottom:2px;" id="admin-user-name">Administrator</div>
+      <div id="admin-user-email" style="font-size:11px;margin-bottom:12px;opacity:0.8;">admin@nexora.local</div>
+      <div style="display:flex;gap:8px;">
+        <a href="/index.html" class="btn btn-secondary btn-sm" style="flex:1;background:rgba(255,255,255,0.08);color:#fff;border-color:transparent;">View Store</a>
+        <button id="admin-logout-btn" class="btn btn-secondary btn-sm" style="background:rgba(255,255,255,0.08);color:#fca5a5;border-color:transparent;">Logout</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div style="font-weight:700;font-size:16px;" id="topbar-title">Dashboard Overview</div>
+      <div style="font-size:12px;color:var(--admin-text-subtle);">
+        Server Status: <span style="color:#10b981;font-weight:700;">● Online (PostgreSQL)</span>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <!-- 1. OVERVIEW TAB -->
+      <section id="tab-overview" class="tab-panel active">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-title">Total Products</span>
+            <span class="kpi-value" id="kpi-products">--</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">Registered Customers</span>
+            <span class="kpi-value" id="kpi-customers">--</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">Total Orders</span>
+            <span class="kpi-value" id="kpi-orders">--</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">Recorded Revenue</span>
+            <span class="kpi-value" id="kpi-revenue" style="color:var(--accent);">--</span>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h3 class="admin-card-title">Recent Customer Orders</h3>
+            <a href="#orders" class="btn btn-sm btn-outline nav-link" data-tab="orders">View All Orders</a>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="overview-orders-tbody">
+              <tr><td colspan="6" style="text-align:center;color:var(--admin-text-subtle);">Loading recent orders…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h3 class="admin-card-title">Low Stock Alert (≤ 15 units)</h3>
+            <a href="#inventory" class="btn btn-sm btn-outline nav-link" data-tab="inventory">Manage Inventory</a>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Current Stock</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="overview-lowstock-tbody">
+              <tr><td colspan="4" style="text-align:center;color:var(--admin-text-subtle);">Checking stock levels…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. PRODUCTS TAB -->
+      <section id="tab-products" class="tab-panel">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h3 class="admin-card-title">Catalogue Products</h3>
+            <div style="display:flex;gap:12px;">
+              <input type="text" id="admin-prod-search" placeholder="Search product name…" style="padding:6px 12px;border:1px solid var(--admin-line);border-radius:6px;font-size:13px;">
+              <a href="#add-product" class="btn btn-sm btn-primary nav-link" data-tab="add-product">+ Add Product</a>
+            </div>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Thumb</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-products-tbody">
+              <tr><td colspan="7" style="text-align:center;">Loading products…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 3. ADD PRODUCT TAB -->
+      <section id="tab-add-product" class="tab-panel">
+        <div class="admin-card" style="max-width:800px;margin:0 auto;">
+          <div class="admin-card-head">
+            <h3 class="admin-card-title">Create New Catalogue Product</h3>
+          </div>
+          <div style="padding:28px;">
+            <form id="create-product-form">
+              <div class="form-group-admin">
+                <label>Product Name</label>
+                <input type="text" name="name" required placeholder="e.g. Ergonomic Bluetooth Mouse" minlength="2" maxlength="200">
+              </div>
+              <div class="form-grid-2">
+                <div class="form-group-admin">
+                  <label>Category</label>
+                  <select name="category_id" id="prod-form-categories" required>
+                    <option value="">Select a category…</option>
+                  </select>
+                </div>
+                <div class="form-group-admin">
+                  <label>Price in Rupees (₹)</label>
+                  <input type="number" name="price_rupees" required placeholder="1499" min="1" step="any">
+                </div>
+              </div>
+              <div class="form-grid-2">
+                <div class="form-group-admin">
+                  <label>Initial Stock Quantity</label>
+                  <input type="number" name="stock" required placeholder="25" min="0" value="10">
+                </div>
+                <div class="form-group-admin">
+                  <label>Listing Status</label>
+                  <select name="is_active">
+                    <option value="true" selected>Active (Visible in Store)</option>
+                    <option value="false">Inactive (Draft)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group-admin">
+                <label>Description</label>
+                <textarea name="description" rows="4" placeholder="Detailed product specifications, features, and dimensions…"></textarea>
+              </div>
+
+              <!-- Multiple Image Upload with Local Multer -->
+              <div class="form-group-admin" style="border:1px dashed var(--admin-line);padding:18px;border-radius:8px;background:#f9fbfa;">
+                <label>Product Images (Upload up to 8 local JPG, PNG, or WebP files)</label>
+                <input type="file" id="product-images-input" multiple accept="image/jpeg,image/png,image/webp" style="margin-top:6px;">
+                <div class="image-preview-strip" id="create-images-preview"></div>
+                <small style="color:var(--admin-text-subtle);display:block;margin-top:8px;">Images will be stored locally in backend/uploads/products/ with verified file signatures.</small>
+              </div>
+
+              <button type="submit" id="save-product-btn" class="btn btn-primary btn-block btn-lg" style="margin-top:14px;">Publish Product to Store →</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. CATEGORIES TAB -->
+      <section id="tab-categories" class="tab-panel">
+        <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:24px;">
+          <!-- Add Category Form -->
+          <div class="admin-card">
+            <div class="admin-card-head">
+              <h3 class="admin-card-title">Add New Category</h3>
+            </div>
+            <div style="padding:24px;">
+              <form id="create-category-form">
+                <div class="form-group-admin">
+                  <label>Category Name</label>
+                  <input type="text" name="name" required placeholder="e.g. Smart Wearables" minlength="2" maxlength="100">
+                </div>
+                <div class="form-group-admin">
+                  <label>Description (Optional)</label>
+                  <textarea name="description" rows="3" placeholder="Category summary…"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Add Category</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Category List -->
+          <div class="admin-card">
+            <div class="admin-card-head">
+              <h3 class="admin-card-title">Existing Categories</h3>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Slug</th>
+                  <th>Products</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-categories-tbody">
+                <tr><td colspan="4" style="text-align:center;">Loading categories…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. INVENTORY TAB -->
+      <section id="tab-inventory" class="tab-panel">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h3 class="admin-card-title">Stock Levels & Inventory Adjustment</h3>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Current Stock</th>
+                <th>Quick Stock Update</th>
+              </tr>
+            </thead>
+            <tbody id="admin-inventory-tbody">
+              <tr><td colspan="5" style="text-align:center;">Loading inventory…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 6. ORDERS TAB -->
+      <section id="tab-orders" class="tab-panel">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h3 class="admin-card-title">Customer Orders Management</h3>
+            <select id="admin-orders-filter" style="padding:6px 12px;border:1px solid var(--admin-line);border-radius:6px;font-size:13px;">
+              <option value="">All Statuses</option>
+              <option value="PENDING">PENDING</option>
+              <option value="PROCESSING">PROCESSING</option>
+              <option value="SHIPPED">SHIPPED</option>
+              <option value="DELIVERED">DELIVERED</option>
+              <option value="CANCELLED">CANCELLED</option>
+            </select>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Update Status</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-tbody">
+              <tr><td colspan="7" style="text-align:center;">Loading orders…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 7. CUSTOMERS TAB -->
+      <section id="tab-customers" class="tab-panel">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h3 class="admin-card-title">Registered Customer Profiles</h3>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Customer Name</th>
+                <th>Email</th>
+                <th>Orders Placed</th>
+                <th>Reviews Written</th>
+                <th>Member Since</th>
+              </tr>
+            </thead>
+            <tbody id="admin-customers-tbody">
+              <tr><td colspan="5" style="text-align:center;">Loading customers…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 8. REVIEWS TAB -->
+      <section id="tab-reviews" class="tab-panel">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <h3 class="admin-card-title">Customer Reviews Moderation</h3>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Customer</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-reviews-tbody">
+              <tr><td colspan="6" style="text-align:center;">Loading reviews for moderation…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script type="module" src="../js/admin-dashboard.js"></script>
+</body>
+</html>

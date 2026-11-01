@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12645c">
+  <title>Saved Wishlist — NEXORA</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <button class="header-back-btn" onclick="window.history.length > 1 ? window.history.back() : window.location.assign('/index.html')" title="Go back" aria-label="Go back">
+          ← Back
+        </button>
+        <a class="brand" href="/index.html" title="NEXORA Home"><span class="brand-mark">N</span><span>NEXORA</span></a>
+        <div class="header-actions">
+          <a href="/pages/cart.html" class="action-btn">Cart</a>
+          <div id="header-auth-nav" style="display:flex;align-items:center;gap:8px;">
+            <a href="/pages/login.html" class="action-btn">Sign in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin: 36px auto 60px;">
+    <h1 style="font-size:26px;margin-bottom:20px;">Your Saved Wishlist</h1>
+    <div class="product-grid" id="wishlist-grid">
+      <div class="state-box" style="grid-column: 1 / -1;"><p>Loading saved items…</p></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none;padding-top:0;">
+        <div>© 2026 NEXORA Inc. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="../js/wishlist-page.js"></script>
+</body>
+</html>

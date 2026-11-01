@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12645c">
+  <title>Customer Profile — NEXORA</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <button class="header-back-btn" onclick="window.history.length > 1 ? window.history.back() : window.location.assign('/index.html')" title="Go back" aria-label="Go back">
+          ← Back
+        </button>
+        <a class="brand" href="/index.html" title="NEXORA Home"><span class="brand-mark">N</span><span>NEXORA</span></a>
+        <div class="header-actions">
+          <a href="/pages/orders.html" class="action-btn">My Orders</a>
+          <a href="/pages/cart.html" class="action-btn">Cart</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="margin: 36px auto 60px; max-width: 540px;">
+    <h1 style="font-size:26px;margin-bottom:20px;">Profile Settings</h1>
+
+    <div class="checkout-step">
+      <div id="profile-status" style="margin-bottom:14px;font-size:13px;" hidden></div>
+      <form id="profile-form">
+        <div style="margin-bottom:14px;">
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:6px;">Full Name</label>
+          <input type="text" id="prof-name" name="full_name" required style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;font-size:14px;">
+        </div>
+        <div style="margin-bottom:14px;">
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:6px;">Email Address</label>
+          <input type="email" id="prof-email" name="email" required style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;font-size:14px;">
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="font-size:13px;font-weight:700;display:block;margin-bottom:6px;">Account Role</label>
+          <input type="text" id="prof-role" readonly disabled style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface-alt);color:var(--ink-secondary);font-size:14px;">
+          <small style="color:var(--ink-subtle);">Roles are managed strictly on the server.</small>
+        </div>
+        <button type="submit" id="save-prof-btn" class="btn btn-primary btn-block">Save Changes</button>
+      </form>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:20px;">
+      <a href="/pages/addresses.html" class="btn btn-secondary" style="flex:1;">Manage Addresses 📍</a>
+      <a href="/pages/orders.html" class="btn btn-secondary" style="flex:1;">View Orders 📦</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none;padding-top:0;">
+        <div>© 2026 NEXORA Inc. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { authApi } from "../js/authApi.js";
+    import { initCustomerHeader, showToast, escapeHtml } from "../js/ui-utils.js";
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      await initCustomerHeader();
+      const nameInput = document.getElementById("prof-name");
+      const emailInput = document.getElementById("prof-email");
+      const roleInput = document.getElementById("prof-role");
+      const form = document.getElementById("profile-form");
+      const btn = document.getElementById("save-prof-btn");
+
+      try {
+        const res = await authApi.currentUser();
+        if (res.success && res.user) {
+          nameInput.value = res.user.full_name;
+          emailInput.value = res.user.email;
+          roleInput.value = res.user.role;
+        }
+      } catch {
+        window.location.assign("/pages/login.html");
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = "Saving…";
+        try {
+          const updated = await fetch("/api/auth/me", {
+            method: "PATCH",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              full_name: nameInput.value.trim(),
+              email: emailInput.value.trim(),
+            }),
+          }).then((r) => r.json());
+
+          if (updated.success) {
+            showToast("Profile updated successfully!", "success");
+          } else {
+            showToast(updated.message || "Failed to update profile.", "error");
+          }
+        } catch (err) {
+          showToast("Network error.", "error");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Save Changes";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12645c">
+  <title>Checkout — NEXORA</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1.8fr 1.2fr;
+      gap: 36px;
+      margin: 36px 0 60px;
+      align-items: flex-start;
+    }
+    .checkout-step {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .checkout-step h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .step-number {
+      width: 26px;
+      height: 26px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 13px;
+      display: grid;
+      place-items: center;
+    }
+    .address-card-choice {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .address-card-choice:hover { border-color: var(--accent); }
+    .payment-option {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      cursor: pointer;
+      align-items: flex-start;
+    }
+    .payment-option.selected {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+    @media (max-width: 768px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <button class="header-back-btn" onclick="window.history.length > 1 ? window.history.back() : window.location.assign('/pages/cart.html')" title="Back to Cart" aria-label="Back to Cart">
+          ← Back to Cart
+        </button>
+
+        <a class="brand" href="/index.html" title="NEXORA Home">
+          <span class="brand-mark">N</span>
+          <span>NEXORA</span>
+        </a>
+        <div style="font-size:13px;color:var(--ink-secondary);margin-left:auto;">
+          🔒 Secure Checkout · 100% Protected
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 style="font-size:26px;margin:32px 0 20px;">Checkout & Order Placement</h1>
+
+    <div id="checkout-view">
+      <div class="state-box"><p>Preparing checkout…</p></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none;padding-top:0;">
+        <div>© 2026 NEXORA Inc. All orders handled securely with atomic transactions.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="../js/checkout-page.js"></script>
+</body>
+</html>
